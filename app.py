@@ -10,8 +10,25 @@ st.set_page_config(
     layout="wide"
 )
 
+# --- CONFIGURAÇÃO DE ACESSO (TRAVA DE SENHA) ---
+# Substitua "SUA_SENHA_AQUI" pela senha que você quer dar ao seu cliente
+SENHA_CORRETA = "acaad2026_secreto" 
+
+# Cria o campo de senha na barra lateral
+st.sidebar.markdown("### 🔐 Acesso Restrito")
+senha_digitada = st.sidebar.text_input("Digite a chave de acesso:", type="password")
+
+if senha_digitada == SENHA_CORRETA:
+    st.sidebar.success("Acesso Liberado!")
+else:
+    if senha_digitada != "":
+        st.sidebar.error("Chave incorreta. Fale com o administrador.")
+    st.info("Utilize a barra lateral para inserir sua chave de acesso e utilizar o sistema.")
+    st.stop() # Interrompe o código aqui, não mostra o resto do app
+
+
 # --- ESTILIZAÇÃO (CSS) ---
-# Aqui definimos as cores da ACAAD (Azul e Amarelo)
+# Aqui definimos as cores da ACAAD (Azul e Amarelo) e a fonte
 st.markdown("""
     <style>
     .main { background-color: #f9f9f9; }
@@ -37,14 +54,13 @@ st.markdown("""
 col_logo, col_titulo = st.columns([1, 4])
 
 with col_logo:
-    # IMPORTANTE: Substitua o link abaixo pelo link da imagem no seu GitHub se preferir
-    # Por enquanto, estou usando o link da imagem que você me enviou
-    logo_url = "https://raw.githubusercontent.com/flavioacaad/NFP/main/logo_acaad.png" 
+    # Estou usando o link da imagem que você me enviou. 
+    # Para garantir, o ideal é subir a imagem logo_acaad.png no seu GitHub.
     st.image("https://acaad.org.br/wp-content/uploads/2021/04/logo-acaad.png", width=150)
 
 with col_titulo:
     st.title("CONSOLIDADOR DE CRÉDITOS NFP - ACAAD")
-    st.info("Sistema de Precisão Total para Consolidação de Notas Fiscais Paulistas.")
+    st.info("Sistema de Precisão Total para Consolidação de Notas Fiscais Paulistas (NFP).")
 
 # --- FUNÇÕES DE LIMPEZA ---
 def limpar_id(txt):
@@ -108,21 +124,4 @@ if file_cpf and file_cnpj:
             
             st.dataframe(resumo, use_container_width=True)
 
-            # Download personalizado
-            output = io.BytesIO()
-            with pd.ExcelWriter(output, engine='openpyxl') as writer:
-                resumo.to_excel(writer, index=False)
-            
-            st.download_button(
-                label="📥 BAIXAR RESULTADO CONSOLIDADO (.xlsx)",
-                data=output.getvalue(),
-                file_name="Relatorio_ACAAD_NFP.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
-
-    except Exception as e:
-        st.error(f"Erro ao processar: Verifique se as colunas 'CNPJ', 'NF' e 'CPF' existem nos arquivos.")
-
-# Rodapé
-st.markdown("---")
-st.caption("© 2026 ACAAD - Soluções de Dados com Precisão | Link Oficial: nfp-acaad.streamlit.app")
+            # Download
