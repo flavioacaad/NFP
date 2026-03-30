@@ -11,7 +11,7 @@ st.set_page_config(
 )
 
 # --- CONFIGURAÇÃO DE ACESSO (TRAVA DE SENHA) ---
-# Substitua "SUA_SENHA_AQUI" pela senha que você quer dar ao seu cliente
+# Substitua pela senha que você quer dar ao seu cliente
 SENHA_CORRETA = "acaad2026_secreto" 
 
 # Cria o campo de senha na barra lateral
@@ -54,9 +54,9 @@ st.markdown("""
 col_logo, col_titulo = st.columns([1, 4])
 
 with col_logo:
-    # Estou usando o link da imagem que você me enviou. 
-    # Para garantir, o ideal é subir a imagem logo_acaad.png no seu GitHub.
-    st.image("https://acaad.org.br/wp-content/uploads/2021/04/logo-acaad.png", width=150)
+    # --- MUDANÇA AQUI ---
+    # Agora buscamos a imagem que você subiu no GitHub na mesma pasta do app.py
+    st.image("logo_acaad.png", width=150)
 
 with col_titulo:
     st.title("CONSOLIDADOR DE CRÉDITOS NFP - ACAAD")
