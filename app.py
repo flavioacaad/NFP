@@ -124,4 +124,21 @@ if file_cpf and file_cnpj:
             
             st.dataframe(resumo, use_container_width=True)
 
-            # Download
+            # Download personalizado
+            output = io.BytesIO()
+            with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                resumo.to_excel(writer, index=False)
+            
+            st.download_button(
+                label="📥 BAIXAR RESULTADO CONSOLIDADO (.xlsx)",
+                data=output.getvalue(),
+                file_name="Relatorio_ACAAD_NFP.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+
+    except Exception as e:
+        st.error(f"Erro ao processar: Verifique se as colunas 'CNPJ', 'NF' e 'CPF' existem nos arquivos.")
+
+# Rodapé
+st.markdown("---")
+st.caption("© 2026 ACAAD - Soluções de Dados com Precisão | Link Oficial: nfp-acaad.streamlit.app")
